@@ -219,7 +219,31 @@ services:
     restart: "unless-stopped"
     networks:
       - container_bridge
-    
+
+  jellyfin:
+    profiles: ["default"]
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - jellyfin-config:/config
+      - /radarr-pool:/movies
+      - /sonarr-pool:/tv
+      - /nas/media:/home-media
+    group_add:
+      - "44"
+    ports:
+      - 8096:8096
+      - 7359:7359/udp
+      - 8920:8920
+    devices:
+      - /dev/dri/renderD129:/dev/dri/renderD129
+    restart: unless-stopped
+    networks:
+      - container_bridge
   
 
 volumes:
@@ -228,3 +252,4 @@ volumes:
   radarr-config:
   prowlarr-config:
   sonarr-config:
+  jellyfin-config:

@@ -6,7 +6,14 @@
 # The compose file on main may not be compatible with the latest release.
 #
 
-name: immich
+name: server-compose
+
+networks:
+  container_bridge:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16
 
 services:
   immich-server:
@@ -31,6 +38,8 @@ services:
       disable: false
     profiles:
       - default
+    networks:
+      - container_bridge
 
   immich-machine-learning:
     container_name: immich_machine_learning
@@ -47,6 +56,8 @@ services:
       disable: false
     profiles:
       - default
+    networks:
+      - container_bridge
 
   redis:
     container_name: immich_redis
@@ -56,6 +67,8 @@ services:
     restart: always
     profiles:
       - default
+    networks:
+      - container_bridge
 
   database:
     container_name: immich_postgres
@@ -89,6 +102,8 @@ services:
     restart: always
     profiles:
       - default
+    networks:
+      - container_bridge
 
   adguardhome:
     image: adguard/adguardhome
@@ -102,12 +117,34 @@ services:
       - 80:80/tcp
       - 443:443/tcp
     volumes:
-      - ./workdir:/opt/adguardhome/work
-      - ./confdir:/opt/adguardhome/conf
+      - ./adguard/workdir:/opt/adguardhome/work
+      - ./adguard/confdir:/opt/adguardhome/conf
     restart: unless-stopped
     profiles:
       - adguard
       - default
+    networks:
+      - container_bridge
+
+  unbound:
+    container_name: unbound
+    image: mvance/unbound:latest
+    ports:
+      - "5335:5335/tcp"
+      - "5335:5335/udp"
+    volumes:
+      - ./unbound:/opt/unbound/etc/unbound/
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - TZ=Asia/Kolkata
+    profiles:
+      - adguard
+      - default
+    networks:
+      container_bridge:
+        ipv4_address: 172.25.0.10
 
 volumes:
   model-cache:

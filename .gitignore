@@ -1,0 +1,7 @@
+.env
+adguard
+unbound/dev
+unbound/var
+unbound/root.hints
+unbound/unbound.log
+unbound/unbound.pid

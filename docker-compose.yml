@@ -164,7 +164,67 @@ services:
       - tx-config:/config
       - /nas/transmission:/downloads
     restart: "unless-stopped"
+    networks:
+      - container_bridge
+
+  prowlarr:
+    profiles: ["default"]
+    container_name: prowlarr
+    image: linuxserver/prowlarr:latest
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - prowlarr-config:/config
+    ports:
+      - 9696:9696
+    restart: unless-stopped
+    networks:
+      - container_bridge
+
+  radarr:
+    profiles: ["default"]
+    container_name: radarr
+    image: linuxserver/radarr:latest
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    ports:
+      - 7878:7878
+    volumes:
+      - radarr-config:/config
+      - /radarr-pool:/storage
+      - /nas/transmission:/downloads
+    restart: "unless-stopped"
+    networks:
+      - container_bridge
+    
+  
+  sonarr:
+    profiles: ["default"]
+    container_name: sonarr
+    image: linuxserver/sonarr:latest
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    ports:
+      - 8989:8989
+    volumes:
+      - sonarr-config:/config
+      - /sonarr-pool:/storage
+      - /nas/transmission:/downloads
+    restart: "unless-stopped"
+    networks:
+      - container_bridge
+    
+  
 
 volumes:
   model-cache:
   tx-config:
+  radarr-config:
+  prowlarr-config:
+  sonarr-config:

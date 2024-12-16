@@ -5,3 +5,5 @@ unbound/var
 unbound/root.hints
 unbound/unbound.log
 unbound/unbound.pid
+joal/clients
+joal/torrents

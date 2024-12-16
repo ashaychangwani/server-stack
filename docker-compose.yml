@@ -149,7 +149,7 @@ services:
   transmission:
     profiles: ["default"]
     container_name: transmission
-    image: linuxserver/transmission:latest
+    image: linuxserver/transmission:version-3.00-r8
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -161,8 +161,10 @@ services:
       - 51413:51413
       - 51413:51413/udp
     volumes:
-      - tx-config:/config
-      - /nas/transmission:/downloads
+      - /nas/data/transmission:/downloads
+      - ./transmission/config:/config
+      - ./transmission/moveToJoal.sh:/moveToJoal.sh
+      - ./joal:/joal
     restart: "unless-stopped"
     networks:
       - container_bridge
@@ -284,6 +286,23 @@ services:
     ports:
       - 6767:6767
     restart: unless-stopped
+
+  joal:
+    image: anthonyraymond/joal:latest
+    container_name: joal
+    restart: unless-stopped
+    volumes:
+      - ./joal:/data
+    ports:
+      - 9092:9092
+    command: 
+      - "--joal-conf=/data"
+      - "--spring.main.web-environment=true"
+      - "--server.port=9092"
+      - "--joal.ui.path.prefix=joal"
+      - "--joal.ui.secret-token=${JOAL_SECRET_TOKEN}"
+    networks:
+      - container_bridge
 
 volumes:
   model-cache:

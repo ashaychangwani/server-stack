@@ -244,7 +244,46 @@ services:
     restart: unless-stopped
     networks:
       - container_bridge
-  
+
+  jellyseerr:
+    profiles: ["default"] 
+    image: fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    hostname: jellyseerr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - jellyseerr-config:/app/config
+      - /radarr-pool:/movies
+      - /sonarr-pool:/tv
+    ports:
+      - 5055:5055
+    restart: unless-stopped
+    depends_on:
+      - sonarr
+      - radarr
+    networks:
+      - container_bridge
+
+  bazarr:
+    profiles: ["default"]
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    networks:
+      - container_bridge
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - bazarr-config:/config
+      - /radarr-pool:/movies
+      - /sonarr-pool:/tv
+    ports:
+      - 6767:6767
+    restart: unless-stopped
 
 volumes:
   model-cache:
@@ -253,3 +292,5 @@ volumes:
   prowlarr-config:
   sonarr-config:
   jellyfin-config:
+  jellyseerr-config:
+  bazarr-config:

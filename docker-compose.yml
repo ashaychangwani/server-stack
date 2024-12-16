@@ -146,5 +146,25 @@ services:
       container_bridge:
         ipv4_address: 172.25.0.10
 
+  transmission:
+    profiles: ["default"]
+    container_name: transmission
+    image: linuxserver/transmission:latest
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - USER=${TRANSMISSION_USER}
+      - PASS=${TRANSMISSION_PASS}
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    volumes:
+      - tx-config:/config
+      - /nas/transmission:/downloads
+    restart: "unless-stopped"
+
 volumes:
   model-cache:
+  tx-config:

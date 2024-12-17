@@ -236,13 +236,13 @@ services:
       - /sonarr-pool:/tv
       - /nas/media:/home-media
     group_add:
-      - "44"
+      - "992"
     ports:
       - 8096:8096
       - 7359:7359/udp
       - 8920:8920
     devices:
-      - /dev/dri/renderD129:/dev/dri/renderD129
+      - /dev/dri/renderD128:/dev/dri/renderD128
     restart: unless-stopped
     networks:
       - container_bridge

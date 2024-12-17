@@ -7,3 +7,5 @@ unbound/unbound.log
 unbound/unbound.pid
 joal/clients
 joal/torrents
+transmission/config/stats.json
+transmission/config/settings.json

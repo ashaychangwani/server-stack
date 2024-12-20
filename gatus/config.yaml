@@ -1,93 +1,141 @@
+metrics: true
+
+storage:
+  type: sqlite
+  path: data.db
+  caching: true
+
+alerting:
+  slack:
+    webhook-url: "https://hooks.slack.com/services/your/slack/webhook"
+    default-alert:
+      description: "Service is unhealthy"
+      send-on-resolved: true
+      failure-threshold: 3
+      success-threshold: 2
+
 endpoints:
   # Ping IP addresses
   - name: Cloudflare-DNS
     url: "icmp://1.1.1.1"
-    interval: 5s
+    interval: 30s
     group: Internet
     conditions:
       - "[CONNECTED] == true"
+      - "[RESPONSE_TIME] < 100"
 
   - name: Parent Router
     url: "icmp://192.168.1.1"
-    interval: 5s
+    interval: 30s
     group: Intranet
     conditions:
       - "[CONNECTED] == true"
+      - "[RESPONSE_TIME] < 200"
 
   - name: Sub Router
     url: "icmp://192.168.1.3"
-    interval: 5s
+    interval: 30s
     group: Intranet
     conditions:
       - "[CONNECTED] == true"
+      - "[RESPONSE_TIME] < 200"
 
   # Monitor local services
   - name: AdGuard
     url: "http://adguardhome:3000"
-    interval: 5s
+    interval: 1m
     group: Media Services
     conditions:
       - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 500"
 
   - name: Transmission
     url: "http://transmission:9091"
-    interval: 5s
+    interval: 1m
     group: Media Services
     conditions:
       - "[STATUS] == 401"
+      - "[RESPONSE_TIME] < 500"
 
   - name: Prowlarr
     url: "http://prowlarr:9696"
-    interval: 5s
+    interval: 1m
     group: Media Services
     conditions:
       - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 500"
 
   - name: Radarr
     url: "http://radarr:7878"
-    interval: 5s
+    interval: 1m
     group: Media Services
     conditions:
       - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 500"
 
   - name: Sonarr
     url: "http://sonarr:8989"
-    interval: 5s
+    interval: 1m
     group: Media Services
     conditions:
       - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 500"
 
   - name: Jellyfin
     url: "http://jellyfin:8096"
-    interval: 5s
+    interval: 1m
     group: Media Services
     conditions:
       - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 500"
 
   - name: Jellyseerr
     url: "http://jellyseerr:5055"
-    interval: 5s
+    interval: 1m
     group: Media Services
     conditions:
       - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 500"
 
   - name: Bazarr
     url: "http://bazarr:6767"
-    interval: 5s
+    interval: 1m
     group: Media Services
     conditions:
       - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 500"
 
   - name: Immich
     url: "http://immich-server:2283"
-    interval: 5s
+    interval: 1m
     group: Media Services
     conditions:
       - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 500"
 
   - name: Joal
     url: "http://joal:9092/joal/ui/"
-    interval: 5s
+    interval: 1m
     group: Media Services
     conditions:
       - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 500"
+
+ui:
+  title: "Gatus Status Dashboard"
+  description: "Advanced health monitoring dashboard for your services."
+  header: "Service Health Status"
+  logo: "https://gatus.io/img/logo-with-light-text.svg"  # Replace with your logo URL
+  dark-mode: true
+  buttons:
+    - name: "View Metrics"
+      link: "/metrics"
+    - name: "Documentation"
+      link: "https://github.com/TwiN/gatus"
+
+maintenance:
+  enabled: false
+  start: "00:00"
+  duration: "2h"
+  timezone: "UTC"
+  every: []  # Days when maintenance applies, e.g., ["Monday", "Thursday"]

@@ -303,6 +303,19 @@ services:
     networks:
       - container_bridge
 
+  gatus:
+    image: twinproduction/gatus
+    container_name: gatus
+    ports:
+      - "9044:8080"
+    volumes:
+      - ./gatus/:/config/:ro
+    environment:
+      - GATUS_LOG_LEVEL=INFO
+    restart: unless-stopped
+    networks:
+      - container_bridge
+
 volumes:
   model-cache:
   tx-config:

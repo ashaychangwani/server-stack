@@ -1,0 +1,93 @@
+endpoints:
+  # Ping IP addresses
+  - name: Cloudflare-DNS
+    url: "icmp://1.1.1.1"
+    interval: 5s
+    group: Internet
+    conditions:
+      - "[CONNECTED] == true"
+
+  - name: Parent Router
+    url: "icmp://192.168.1.1"
+    interval: 5s
+    group: Intranet
+    conditions:
+      - "[CONNECTED] == true"
+
+  - name: Sub Router
+    url: "icmp://192.168.1.3"
+    interval: 5s
+    group: Intranet
+    conditions:
+      - "[CONNECTED] == true"
+
+  # Monitor local services
+  - name: AdGuard
+    url: "http://adguardhome:3000"
+    interval: 5s
+    group: Media Services
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: Transmission
+    url: "http://transmission:9091"
+    interval: 5s
+    group: Media Services
+    conditions:
+      - "[STATUS] == 401"
+
+  - name: Prowlarr
+    url: "http://prowlarr:9696"
+    interval: 5s
+    group: Media Services
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: Radarr
+    url: "http://radarr:7878"
+    interval: 5s
+    group: Media Services
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: Sonarr
+    url: "http://sonarr:8989"
+    interval: 5s
+    group: Media Services
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: Jellyfin
+    url: "http://jellyfin:8096"
+    interval: 5s
+    group: Media Services
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: Jellyseerr
+    url: "http://jellyseerr:5055"
+    interval: 5s
+    group: Media Services
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: Bazarr
+    url: "http://bazarr:6767"
+    interval: 5s
+    group: Media Services
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: Immich
+    url: "http://immich-server:2283"
+    interval: 5s
+    group: Media Services
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: Joal
+    url: "http://joal:9092/joal/ui/"
+    interval: 5s
+    group: Media Services
+    conditions:
+      - "[STATUS] == 200"

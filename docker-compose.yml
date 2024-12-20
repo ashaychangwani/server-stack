@@ -114,8 +114,6 @@ services:
       - 784:784/udp
       - 853:853/tcp
       - 3000:3000/tcp
-      - 80:80/tcp
-      - 443:443/tcp
     volumes:
       - ./adguard/workdir:/opt/adguardhome/work
       - ./adguard/confdir:/opt/adguardhome/conf
@@ -144,7 +142,7 @@ services:
       - default
     networks:
       container_bridge:
-        ipv4_address: 172.25.0.10
+        ipv4_address: 172.25.0.50
 
   transmission:
     profiles: ["default"]
@@ -288,6 +286,7 @@ services:
     restart: unless-stopped
 
   joal:
+    profiles: ["default"]
     image: anthonyraymond/joal:latest
     container_name: joal
     restart: unless-stopped

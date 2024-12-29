@@ -196,7 +196,7 @@ services:
     volumes:
       - radarr-config:/config
       - /radarr-pool:/storage
-      - /nas/transmission:/downloads
+      - /nas/data/transmission:/downloads
     restart: "unless-stopped"
     networks:
       - container_bridge
@@ -215,7 +215,7 @@ services:
     volumes:
       - sonarr-config:/config
       - /sonarr-pool:/storage
-      - /nas/transmission:/downloads
+      - /nas/data/transmission:/downloads
     restart: "unless-stopped"
     networks:
       - container_bridge

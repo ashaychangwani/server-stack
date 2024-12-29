@@ -18,7 +18,7 @@ endpoints:
   # Ping IP addresses
   - name: Cloudflare-DNS
     url: "icmp://1.1.1.1"
-    interval: 30s
+    interval: 5s
     group: Internet
     conditions:
       - "[CONNECTED] == true"
@@ -26,7 +26,7 @@ endpoints:
 
   - name: Parent Router
     url: "icmp://192.168.1.1"
-    interval: 30s
+    interval: 5s
     group: Intranet
     conditions:
       - "[CONNECTED] == true"
@@ -34,7 +34,7 @@ endpoints:
 
   - name: Sub Router
     url: "icmp://192.168.1.3"
-    interval: 30s
+    interval: 5s
     group: Intranet
     conditions:
       - "[CONNECTED] == true"

@@ -38,6 +38,7 @@ services:
       disable: false
     profiles:
       - default
+      - immich
     networks:
       - container_bridge
 
@@ -56,6 +57,7 @@ services:
       disable: false
     profiles:
       - default
+      - immich
     networks:
       - container_bridge
 
@@ -67,6 +69,7 @@ services:
     restart: always
     profiles:
       - default
+      - immich
     networks:
       - container_bridge
 
@@ -102,6 +105,7 @@ services:
     restart: always
     profiles:
       - default
+      - immich
     networks:
       - container_bridge
 
@@ -233,6 +237,7 @@ services:
       - /radarr-pool:/movies
       - /sonarr-pool:/tv
       - /nas/media:/home-media
+      - /nas/data/transmission:/downloads
     group_add:
       - "992"
     ports:
@@ -304,7 +309,8 @@ services:
       - container_bridge
 
   gatus:
-    image: twinproduction/gatus
+    profiles: ["default"]
+    image: twinproduction/gatus:latest
     container_name: gatus
     ports:
       - "9044:8080"

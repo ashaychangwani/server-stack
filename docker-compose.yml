@@ -322,6 +322,32 @@ services:
     networks:
       - container_bridge
 
+  librespeed:
+    profiles: ["default"]
+    image: lscr.io/linuxserver/librespeed:latest
+    container_name: librespeed
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - PASSWORD=PASSWORD
+      - CUSTOM_RESULTS=false #optional
+      - DB_TYPE=sqlite #optional
+      - DB_NAME=DB_NAME #optional
+      - DB_HOSTNAME=DB_HOSTNAME #optional
+      - DB_USERNAME=DB_USERNAME #optional
+      - DB_PASSWORD=DB_PASSWORD #optional
+      - DB_PORT=DB_PORT #optional
+      - IPINFO_APIKEY=ACCESS_TOKEN #optional
+    volumes:
+      - librespeed-config:/config
+    ports:
+      - 1280:80
+    restart: unless-stopped
+    networks:
+      - container_bridge
+
+
 volumes:
   model-cache:
   tx-config:
@@ -331,3 +357,4 @@ volumes:
   jellyfin-config:
   jellyseerr-config:
   bazarr-config:
+  librespeed-config:

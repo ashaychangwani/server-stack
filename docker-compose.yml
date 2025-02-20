@@ -347,7 +347,39 @@ services:
     networks:
       - container_bridge
 
+  # changedetection:
+  #   profiles: ["default"]
+  #   container_name: changedetection
+  #   image: ghcr.io/dgtlmoon/changedetection.io
+  #   hostname: changedetection
+  #   volumes:
+  #     - changedetection-data:/datastore
+  #   ports:
+  #     - "5000:5000"
+  #   environment:
+  #     # Enable Playwright fetching by pointing to our playwright container below
+  #     - PLAYWRIGHT_DRIVER_URL=ws://sockpuppetbrowser:3000
+  #   restart: unless-stopped
+  #   networks:
+  #     - container_bridge
 
+  # sockpuppetbrowser:
+  #   profiles: ["default"]
+  #   container_name: sockpuppetbrowser
+  #   image: dgtlmoon/sockpuppetbrowser:latest
+  #   hostname: sockpuppetbrowser
+  #   cap_add:
+  #     - SYS_ADMIN
+  #   environment:
+  #     - SCREEN_WIDTH=1920
+  #     - SCREEN_HEIGHT=1024
+  #     - SCREEN_DEPTH=16
+  #     - MAX_CONCURRENT_CHROME_PROCESSES=10
+  #   ports:
+  #     - "5040:5040"
+  #   restart: unless-stopped
+  #   networks:
+  #     - container_bridge
 volumes:
   model-cache:
   tx-config:
@@ -358,3 +390,4 @@ volumes:
   jellyseerr-config:
   bazarr-config:
   librespeed-config:
+  # changedetection-data:
